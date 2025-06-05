@@ -1,43 +1,46 @@
-import cv2
+import cv2                     # still imported in case you extend later
 import numpy as np
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
-                            QHBoxLayout, QPushButton, QLabel, QComboBox, 
-                            QTableWidget, QTableWidgetItem, QSizePolicy)
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
+    QLabel, QComboBox, QTableWidget, QTableWidgetItem, QSizePolicy
+)
 from PyQt5.QtCore import Qt, QSize
+
 
 class ProcessDefiner(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Admin Mode 2 - Process Definition")
+        self.setWindowTitle("Admin Mode 2 – Process Definition")
         self.setWindowState(Qt.WindowMaximized)
         self.setWindowFlags(self.windowFlags() | Qt.WindowCloseButtonHint)
 
-        # Create main widget and layout
+        # ───────────────────────  MAIN LAYOUT  ───────────────────────
         self.central_widget = QWidget()
         self.setCentralWidget(self.central_widget)
         self.layout = QVBoxLayout(self.central_widget)
-        
-        # Add spacing at the top
         self.layout.addSpacing(10)
 
-        # Add title with consistent styling
+        # Title
         self.title_label = QLabel("Process Sequence Definition System")
         self.title_label.setAlignment(Qt.AlignCenter)
         self.title_label.setStyleSheet("""
-            font-size: 28px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin: 10px;
-            padding: 10px;
+            QLabel {
+                font-size: 32px;
+                font-weight: 700;
+                letter-spacing: 1px;
+                color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0,
+                                       stop:0 #8e44ad, stop:1 #3498db);
+                padding: 12px;
+            }
         """)
         self.layout.addWidget(self.title_label)
 
-        # ROI Selection Area with improved styling
+        # ───────────────────────  ROI SELECTION  ───────────────────────
         roi_selection_widget = QWidget()
         roi_selection_widget.setStyleSheet("""
             QWidget {
-                background-color: #f8f9fa;
-                border: 2px solid #dee2e6;
+                background-color: #12121a;
+                border: 2px solid #2d2d3d;
                 border-radius: 8px;
                 margin: 10px;
                 padding: 15px;
@@ -45,99 +48,112 @@ class ProcessDefiner(QMainWindow):
         """)
         roi_selection_layout = QVBoxLayout(roi_selection_widget)
 
-        # ROI List Label and Combo with styling
         self.roi_list_label = QLabel("Available Regions of Interest:")
         self.roi_list_label.setStyleSheet("""
-            font-size: 16px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
+            QLabel {
+                font-size: 16px;
+                font-weight: 600;
+                color: #ecf0f1;
+                margin-bottom: 5px;
+            }
         """)
-        
+
         self.roi_list_combo = QComboBox()
         self.roi_list_combo.setStyleSheet("""
             QComboBox {
                 padding: 8px;
-                border: 2px solid #bdc3c7;
-                border-radius: 6px;
                 font-size: 14px;
                 min-width: 200px;
+                color: #ecf0f1;
+                background-color: #1e1e2e;
+                border: 2px solid #2d2d3d;
+                border-radius: 6px;
             }
-            QComboBox:hover {
+            QComboBox:hover, QComboBox:focus {
                 border: 2px solid #3498db;
             }
+            QComboBox QListView {
+                background-color: #1e1e2e;
+                color: #ecf0f1;
+            }
         """)
-        
+
         roi_selection_layout.addWidget(self.roi_list_label)
         roi_selection_layout.addWidget(self.roi_list_combo)
         self.layout.addWidget(roi_selection_widget)
 
-        # Process Table with improved styling
+        # ───────────────────────  PROCESS TABLE  ───────────────────────
         self.process_table = QTableWidget(0, 1)
         self.process_table.setHorizontalHeaderLabels(["From ROI"])
+        self.process_table.horizontalHeader().setStretchLastSection(True)
+        self.process_table.setMinimumHeight(300)
 
         self.process_table.setStyleSheet("""
             QTableWidget {
-                background-color: #ffffff;
-                border: 2px solid #dee2e6;
+                background-color: #1e1e2e;
+                border: 2px solid #2d2d3d;
                 border-radius: 8px;
                 margin: 10px;
+                color: #ecf0f1;
             }
             QTableWidget::item {
                 padding: 8px;
             }
             QHeaderView::section {
-                background-color: #f8f9fa;
+                background-color: #2d2d3d;
+                color: #ecf0f1;
                 padding: 8px;
-                border: 1px solid #dee2e6;
-                font-weight: bold;
+                border: 1px solid #2d2d3d;
+                font-weight: 600;
                 font-size: 14px;
             }
         """)
-        self.process_table.horizontalHeader().setStretchLastSection(True)
-        self.process_table.setMinimumHeight(300)
         self.layout.addWidget(self.process_table)
 
-        # Button layout with consistent styling
+        # ───────────────────────  BUTTON BAR  ───────────────────────
         self.button_layout = QHBoxLayout()
-        button_style = """
+        base_btn = """
             QPushButton {
-                background-color: #3498db;
-                color: white;
+                color: #fff;
                 padding: 12px 24px;
-                border-radius: 6px;
                 font-size: 16px;
+                font-weight: 600;
+                border: none;
+                border-radius: 8px;
                 min-width: 150px;
                 margin: 10px;
             }
-            QPushButton:hover {
-                background-color: #2980b9;
-            }
+            QPushButton:disabled { background-color: #555; color: #aaa; }
         """
-        
         self.add_step_button = QPushButton("Add Step")
-        self.add_step_button.setStyleSheet(button_style)
-        
+        self.add_step_button.setStyleSheet(
+            base_btn + "QPushButton { background-color: #27ae60; }"
+                        "QPushButton:hover { background-color: #1f8c4d; }")
+
         self.save_button = QPushButton("Save Process")
-        self.save_button.setStyleSheet(button_style)
-        
+        self.save_button.setStyleSheet(
+            base_btn + "QPushButton { background-color: #3498db; }"
+                        "QPushButton:hover { background-color: #2980b9; }")
+
         self.clear_button = QPushButton("Clear Process")
-        self.clear_button.setStyleSheet(button_style.replace("#3498db", "#e74c3c")
-                                                   .replace("#2980b9", "#c0392b"))
-        
+        self.clear_button.setStyleSheet(
+            base_btn + "QPushButton { background-color: #e74c3c; }"
+                        "QPushButton:hover { background-color: #c0392b; }")
+
         self.button_layout.addWidget(self.add_step_button)
         self.button_layout.addWidget(self.save_button)
         self.button_layout.addWidget(self.clear_button)
         self.layout.addLayout(self.button_layout)
 
-        # Connect buttons
+        # ───────────────────────  SIGNALS  ───────────────────────
         self.add_step_button.clicked.connect(self.add_process_step)
         self.save_button.clicked.connect(self.save_process)
         self.clear_button.clicked.connect(self.clear_process)
 
-        # Load ROI definitions
+        # Load ROI data
         self.load_roi_definitions()
 
+    # ───────────────────────  ROI + PROCESS HELPERS  ───────────────────────
     def load_roi_definitions(self):
         self.roi_definitions = []
         try:
@@ -154,42 +170,57 @@ class ProcessDefiner(QMainWindow):
             pass
 
     def add_process_step(self):
-        row_count = self.process_table.rowCount()
-        self.process_table.insertRow(row_count)
+        row = self.process_table.rowCount()
+        self.process_table.insertRow(row)
 
-        # Create and style comboboxes
         combo_style = """
             QComboBox {
-                padding: 5px;
-                border: 1px solid #bdc3c7;
+                padding: 6px;
+                min-width: 140px;
+                color: #ecf0f1;
+                background-color: #1e1e2e;
+                border: 1px solid #2d2d3d;
                 border-radius: 4px;
-                min-width: 120px;
             }
-            QComboBox:hover {
+            QComboBox:hover, QComboBox:focus {
                 border: 1px solid #3498db;
             }
+            QComboBox QListView {
+                background-color: #1e1e2e;
+                color: #ecf0f1;
+            }
         """
-
-        from_roi_combo = QComboBox()
-        from_roi_combo.addItems([roi['label'] for roi in self.roi_definitions])
-        from_roi_combo.setStyleSheet(combo_style)
-        self.process_table.setCellWidget(row_count, 0, from_roi_combo)
+        from_combo = QComboBox()
+        from_combo.addItems([roi['label'] for roi in self.roi_definitions])
+        from_combo.setStyleSheet(combo_style)
+        self.process_table.setCellWidget(row, 0, from_combo)
 
     def save_process(self):
-        process_steps = []
+        steps = []
         for row in range(self.process_table.rowCount()):
-            from_roi = self.process_table.cellWidget(row, 0).currentText()
-            process_steps.append(f"{from_roi}")
-
-        
+            steps.append(self.process_table.cellWidget(row, 0).currentText())
         with open('process_definitions.txt', 'w') as f:
-            f.write('\n'.join(process_steps))
+            f.write('\n'.join(steps))
 
     def clear_process(self):
         self.process_table.setRowCount(0)
 
+
+# ─────────────────────────────  ENTRY POINT  ─────────────────────────────
 if __name__ == '__main__':
-    app = QApplication([])
+    import sys
+
+    app = QApplication(sys.argv)
+
+    # Global dark palette
+    app.setStyleSheet("""
+        QWidget {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #1e1e2e;
+            color: #ecf0f1;
+        }
+    """)
+
     window = ProcessDefiner()
     window.show()
-    app.exec_()
+    sys.exit(app.exec_())
