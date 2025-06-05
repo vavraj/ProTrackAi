@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+mp-env/
+
+# macOS system files
+.DS_Store
+
+# Logs and temp files
+*.log
+*.tmp
+
+# VSCode settings (optional if you don’t want to share them)
+.vscode/
+
+# Python environment files
+*.env
+.env
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Hidden system files
+Thumbs.db
+ehthumbs.db

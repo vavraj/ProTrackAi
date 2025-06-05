@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hand Tracking System</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">
+            <i class="fas fa-hand-pointer"></i>
+            <span>Hand Tracking System</span>
+        </div>
+        <ul>
+            <!-- <li><a href="#" onclick="loadPage('dashboard')"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+            <li><a href="#" onclick="loadPage('login')"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="#" onclick="loadPage('index')"><i class="fas fa-home"></i> Home</a></li> -->
+            <li>
+                <button id="theme-toggle" class="theme-toggle" onclick="toggleTheme()">
+                    <i class="fas fa-sun"></i> Light Mode
+                </button>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="hero-section">
+            <div class="hero-content">
+                <h1 class="animate__animated animate__fadeInDown">Intelligent Hand Tracking System</h1>
+                <p class="animate__animated animate__fadeIn animate__delay-1s">Optimize your operations with precision tracking and real-time validation.</p>
+                <div class="stats-container animate__animated animate__fadeIn animate__delay-2s">
+                    <div class="stat-item">
+                        <div class="stat-value" data-count="95">0</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" data-count="78">0</div>
+                        <div class="stat-label">Efficiency</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" data-count="500">0</div>
+                        <div class="stat-label">Happy Users</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image animate__animated animate__fadeInRight animate__delay-1s">
+                <div class="hand-tracker-animation">
+                    <div class="hand-outline"></div>
+                    <div class="tracking-point p1"></div>
+                    <div class="tracking-point p2"></div>
+                    <div class="tracking-point p3"></div>
+                    <div class="tracking-point p4"></div>
+                    <div class="tracking-point p5"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-section">
+            <h2 data-aos="fade-up">Our Solutions</h2>
+            <div class="features-container">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="card-icon">
+                        <i class="fas fa-draw-polygon"></i>
+                    </div>
+                    <h3>ROI Definition</h3>
+                    <p>Define regions of interest with precision for accurate tracking and validation.</p>
+                    <button class="feature-btn" onclick="startROI()">
+                        <span>Start ROI Definition</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="card-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Process Definition</h3>
+                    <p>Create and manage workflows with our intuitive process definition tools.</p>
+                    <button class="feature-btn" onclick="startProcess()">
+                        <span>Start Process Definition</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="card-icon">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <h3>User Mode</h3>
+                    <p>Experience real-time hand tracking with visual feedback and validation.</p>
+                    <button class="feature-btn" onclick="startUserMode()">
+                        <span>Start User Mode</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="how-it-works" data-aos="fade-up">
+            <h2>How It Works</h2>
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Define ROIs</h3>
+                        <p>Set up regions of interest for tracking hand movements.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Create Processes</h3>
+                        <p>Design sequential workflows for validation.</p>
+                    </div>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Track & Validate</h3>
+                        <p>Monitor hand movements in real-time with visual feedback.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section" data-aos="fade-up">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Operations?</h2>
+                <p>Get started with our hand tracking system today.</p>
+                <button class="cta-button" onclick="startUserMode()">
+                    <span>Start Now</span>
+                    <i class="fas fa-rocket"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Hand Tracking System</h3>
+                <p>Advanced solutions for process automation and validation.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#" onclick="loadPage('dashboard')">Dashboard</a></li>
+                    <li><a href="#" onclick="loadPage('login')">Login</a></li>
+                    <li><a href="#" onclick="loadPage('index')">Home</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope"></i> info@handtracking.com</p>
+                <p><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Hand Tracking System. All rights reserved.</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
